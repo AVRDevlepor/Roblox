@@ -22,9 +22,8 @@ local LT = Character.LowerTorso
 
 local ToGive;
 for _, Hat in pairs(Character:GetChildren()) do
-    print(Hat.Name)
     if Hat.ClassName == "Accessory" and Hat:FindFirstChild("Handle") then
-        if string.lower(Hat.Name) == HatName then
+        if string.lower(Hat.Name) == string.lower(HatName) then
             ToGive = Hat
         end
     end
