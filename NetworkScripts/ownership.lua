@@ -1,11 +1,10 @@
--- H3x0Rs Ownership Script v2.1.1
+-- H3x0Rs Ownership Script v2.1.1 (http://bit.ly/gainownership)
 local PlayerInstance;
-local getgenv = getgenv or function() return _G end
 local sethiddenprop = (sethiddenproperty or set_hidden_property or sethiddenprop or set_hidden_prop)
 local setsimulationrad = setsimulationradius or set_simulation_radius or function(Radius) sethiddenprop(PlayerInstance, "SimulationRadius", Radius) end
 if not getgenv or not sethiddenprop or not setsimulationrad then return false end -- Not supported
-if getgenv().NETWORKOWNER then getgenv().NETWORKOWNER:Disconnect() getgenv().NETWORKPLAYERCHECK:Disconnect() getgenv().NETWORKPLAYERCHECK2:Disconnect() end
-getgenv().NETWORK_RADIUS = NETWORK_RADIUS or 1000
+if NETWORKOWNER then NETWORKOWNER:Disconnect() NETWORKPLAYERCHECK:Disconnect() NETWORKPLAYERCHECK2:Disconnect() end
+getgenv().NETWORK_RADIUS = NETWORK_RADIUS or math.huge
 
 if not isfile("network-ownership.log") then
     writefile("network-ownership.log", "Script executed on game "..game.PlaceId.."!\n")
