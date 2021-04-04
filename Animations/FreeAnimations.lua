@@ -1,5 +1,5 @@
 -- R15 Animation Overwriting
-local Idle  = 5319828216 -- Animation IDs, not the animation pack ID or the animation model IDs.
+local Idle  = 5319828216
 local Walk  = 5319847204
 local Run   = 5319844329
 local SIdle = 5319852613
@@ -9,9 +9,13 @@ local Jump  = 5319841935
 local Climb = 5319816685
 
 
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
 local split = string.split
 local Player = game:GetService("Players").LocalPlayer
-local Character = Player.Character
+local Character = Player.Character or Player.CharacterAdded:Wait()
 Player.CharacterAdded:Connect(function(C)
     Character = C
 end)
