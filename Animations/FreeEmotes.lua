@@ -79,13 +79,17 @@ local Emotes = {
     oldtownroad = 5937560570
 }
 
-local match, split, lower = string.match, string.split, string.lower
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
 
 local Player = game:GetService("Players").LocalPlayer
-local Character = Player.Character
+local Character = Player.Character or Player.CharacterAdded:Wait()
 Player.CharacterAdded:Connect(function(C)
     Character = C
 end)
+
+local match, split, lower = string.match, string.split, string.lower
 
 local Debris = game:GetService("Debris")
 local Ver = ANIMSCR1_VER or 0
