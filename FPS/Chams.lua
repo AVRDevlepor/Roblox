@@ -30,7 +30,7 @@ end
 local function MakeBoxes(Character, Color, Ignore)
 	local Boxes = {}
 	for _, Part in pairs(Character:GetDescendants()) do
-		if Part:IsA("BasePart") and not Ignore[Part.Name] then
+		if Part:IsA("BasePart") and (Ignore and not Ignore[Part.Name] or true) then
 			if Part.Name == "Head" then
 				Boxes[#Boxes + 1] = NewBox(Part, Color, Vector3.new(1.2, 1.2, 1.2))
 			elseif Part.Name ~= "Handle" then
@@ -76,7 +76,7 @@ elseif game.PlaceId == 286090429 then -- Arsenal
 		if LocalPlayer == Player then return end
 		
 		local Character = Player.Character or Player.CharacterAdded:Wait()
-		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true}) -- Don't ask me why they add so much crap
+		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true}) -- why
 	end
 
 	Players.PlayerAdded:Connect(Chams)
