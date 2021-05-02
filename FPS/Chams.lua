@@ -77,6 +77,7 @@ elseif game.PlaceId == 286090429 then -- Arsenal
 		
 		local Character = Player.Character or Player.CharacterAdded:Wait()
 		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true}) -- why
+		Player.CharacterAdded:Connect(function() MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true}) end)
 	end
 
 	Players.PlayerAdded:Connect(Chams)
@@ -89,6 +90,7 @@ else
 		
 		local Character = Player.Character or Player.CharacterAdded:Wait()
 		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil)
+		Player.CharacterAdded:Connect(function() MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil) end)
 	end
 
 	Players.PlayerAdded:Connect(Chams)
