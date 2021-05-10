@@ -1,10 +1,10 @@
-local ShowTeam = true
+local ShowTeam = false
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
 local Gui = Instance.new("ScreenGui")
-Gui.Name = "RobloxGui" -- Mask the name of roblox's gui to avoid detection if you can't hide the gui.
+Gui.Name = "RobloxGui" -- Mask the name of roblox's gui to avoid detection (FindFirstChild attacks) if you can't hide the gui.
 if syn then
 	syn.protect_gui(Gui)
 	Gui.Parent = game:GetService("CoreGui")
@@ -46,11 +46,11 @@ if game.PlaceId == 292439477 then -- PF
 	local function Chams(Character)
 		if LocalPlayer.Character == Character then return end
 		Registered[Character] = true
-		local Boxes, Conn = {}
+		local Boxes, Conn = {}					
 		if Character.Parent.Name == "Phantoms" then
-			Boxes = MakeBoxes(Character, ShowTeam and BrickColor.new("Bright orange").Color or nil)
+			Boxes = MakeBoxes(Character, ShowTeam and BrickColor.new("Bright blue").Color or nil, {["HumanoidRootPart"] = true})
 		else
-			Boxes = MakeBoxes(Character, ShowTeam and BrickColor.new("Bright blue").Color or nil)
+			Boxes = MakeBoxes(Character, ShowTeam and BrickColor.new("Bright orange").Color or nil, {["HumanoidRootPart"] = true})
 		end
 		
 		Conn = Character.Parent.ChildRemoved:Connect(function(C)
@@ -76,8 +76,8 @@ elseif game.PlaceId == 286090429 then -- Arsenal
 		if LocalPlayer == Player then return end
 		
 		local Character = Player.Character or Player.CharacterAdded:Wait()
-		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true}) -- why
-		Player.CharacterAdded:Connect(function() MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true}) end)
+		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true, ["HumanoidRootPart"] = true}) -- why
+		Player.CharacterAdded:Connect(function(C) MakeBoxes(C, ShowTeam and Player.TeamColor.Color or nil, {["Hitbox"] = true, ["HeadHB"] = true, ["ParticleArea"] = true, ["FakeHead"] = true, ["HumanoidRootPart"] = true}) end)
 	end
 
 	Players.PlayerAdded:Connect(Chams)
@@ -89,8 +89,8 @@ else
 		if LocalPlayer == Player then return end
 		
 		local Character = Player.Character or Player.CharacterAdded:Wait()
-		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil)
-		Player.CharacterAdded:Connect(function() MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil) end)
+		MakeBoxes(Character, ShowTeam and Player.TeamColor.Color or nil, {["HumanoidRootPart"] = true})
+		Player.CharacterAdded:Connect(function(C) MakeBoxes(C, ShowTeam and Player.TeamColor.Color or nil, {["HumanoidRootPart"] = true}) end)
 	end
 
 	Players.PlayerAdded:Connect(Chams)
