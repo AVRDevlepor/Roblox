@@ -62,10 +62,7 @@ local function ParseURL(Url)
         gsubstr(FullParams, "[^&]+", function(Split)
             local EqPoint = strfind(Split, "=")
             local Name, Value = substr(Split, 1, EqPoint - 1), URLDecode(substr(Split, EqPoint + 1))
-            Params[#Params + 1] = {
-                Name = Name,
-                Value = Value
-            }
+            Params[Name] = Value
         end)
 
         Result.RawParams = FullParams
