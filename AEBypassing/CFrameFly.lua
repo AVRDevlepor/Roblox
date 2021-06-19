@@ -52,7 +52,7 @@ end)
 
 while true do -- not EndAll
     local Delta = OnRender:Wait()
-	if Nav.Flying then
+    if Nav.Flying then
         if Nav.Forward then
             Root.CFrame = Root.CFrame + (Camera.CFrame.LookVector * (Delta * Speed))
         end
