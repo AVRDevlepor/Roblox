@@ -1,4 +1,11 @@
 local Figure = game:GetService("Players").LocalPlayer.Character --script.Parent
+script = Instance.new("LocalScript", Figure)
+script.Name = "Animate"
+
+local BreakLoop = false
+script:GetPropertyChangedSignal("Disabled"):Connect(function() BreakLoop = true end end)
+Character.ChildRemoved:Connect(function(I) if I == script then BreakLoop = true end end)
+
 local Torso = Figure:WaitForChild("Torso")
 local RightShoulder = Torso:WaitForChild("Right Shoulder")
 local LeftShoulder = Torso:WaitForChild("Left Shoulder")
@@ -530,7 +537,7 @@ end)
 playAnimation("idle", 0.1, Humanoid)
 pose = "Standing"
 
-while Figure.Parent ~= nil do
+while Figure.Parent ~= nil and not BreakLoop do
 	local _, time = wait(0.1)
 	move(time)
 end
