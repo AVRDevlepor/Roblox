@@ -120,7 +120,7 @@ local EmoteDb = false
 local ChatConn;
 ChatConn = Player.Chatted:Connect(function(ToChat)
     if ANIMSCR1_VER > Ver then ChatConn:Disconnect() end
-    if match(ToChat, "^/b ") or match(ToChat, "^/bmote ") then
+    if match(ToChat, "^/e ") or match(ToChat, "^/emote ") then
         local EmoteName = split(ToChat, " ")[2]
         if EmoteName then
             EmoteName = lower(EmoteName)
