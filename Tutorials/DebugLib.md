@@ -3,10 +3,13 @@ Hey, you asked for help and you'll recieve help. I created this because I'm extr
 # Precursor
 Real quickly, I want you to know a few terms so you understand what I'm talking about. A function prototype (proto) is not the same thing as a function. A proto is part of a function. Another thing I need you to know is that a closure is the same thing as a function.
 
+# Scripts and Closures
+A script is an instance, a closure is a function that the script is running as. You can use the `getscriptclosure` function to fetch the closure of your script.
+
 # The Call Stack
-You're gonna need to know how the call stack works to continue this tutorial. Don't worry, it's a lot simpler than you think it is. Whenever you execute a script, the first line of code is technically a function, but not a function. It's the main chunk, which is the first index of the call stack. If you call a function from the main chunk, then the code the function runs is in the second index of the call stack. If you call a function in that function, the call stack index will go to three. This can just keep increasing by calling a function in a function until the stack overflows and the script will error. Here is a function I made that returns our call stack index:
+You're gonna need to know how the call stack works to continue this tutorial. Don't worry, it's a lot simpler than you think it is. Whenever you execute a script, the first line of code is technically a function, but not a function. It's the main chunk, which is the first level of the call stack. If you call a function from the main chunk, then the code the function runs is in the second level of the call level. If you call a function in that function, the call stack level will go to three. This can just keep increasing by calling a function in a function until the stack overflows and the script will error. Here is a function I made that returns our call stack level:
 ```lua
-local function getcallstackindex()
+local function getcallstacklevel()
     local i = 0
     while debug.getinfo(3 + i) do
         i = i + 1
@@ -17,26 +20,26 @@ end
 ```
 Some of you have mental retardation, so here's a visualization script:
 ```lua
-print(tostring(getcallstackindex())..": main chunk")
+print(tostring(getcallstacklevel())..": main chunk")
 local function a()
-    print(tostring(getcallstackindex())..": function a")
+    print(tostring(getcallstacklevel())..": function a")
 end
 
 local function b()
-    print(tostring(getcallstackindex())..": function b (before call)")
+    print(tostring(getcallstacklevel())..": function b (before call)")
     a()
-    print(tostring(getcallstackindex())..": function b (after call)")
+    print(tostring(getcallstacklevel())..": function b (after call)")
 end
 
 local function c()
-    print(tostring(getcallstackindex())..": function c (before call)")
+    print(tostring(getcallstacklevel())..": function c (before call)")
     b()
-    print(tostring(getcallstackindex())..": function c (after call)")
+    print(tostring(getcallstacklevel())..": function c (after call)")
 end
 
 c())
 ```
-This should be your output, with the number as the call stack index:
+This should be your output, with the number as the call stack level:
 ```
 1: main chunk
 2: function c (before call)
@@ -44,6 +47,16 @@ This should be your output, with the number as the call stack index:
 4: function a
 3: function b (after call)
 2: function c (after call)
+```
+You can go backwards in the call stack level, like with a few debug functions:
+```lua
+local function a()
+    local function b()
+        print(debug.getinfo(2).name) --> a
+    end
+end
+
+a()
 ```
 
 # Closures in Closures
@@ -71,7 +84,7 @@ Unnamed function
 You can see that there's three protos, but there's only two functions? Well, there's actually a third function. The unnamed function is the anonymous function passed through `table.foreachi` to iterate the list of protos.
 
 # Upvalues
-Alright, now we can finally get some upvalue action in here. An upvalue is a reference to a local variable--but there's a drawback. An upvalue has to be up the call stack; it can't be down the call stack or in the same call stack index. It's confusing and you'll probably need a visualization to understand this:
+Alright, now we can finally get some upvalue action in here. An upvalue is a reference to a local variable--but there's a drawback. An upvalue has to be up the call stack; it can't be down the call stack or in the same call stack level. It's confusing and you'll probably need a visualization to understand this:
 ```lua
 local LocalVar1 = "Some local variable."
 local function f()
@@ -80,14 +93,14 @@ local function f()
         local LocalVar3 = "A third local variable!"
         print(LocalVar1) -- You have to travel up the call stack twice to get it; upvalue reference.
         print(LocalVar2) -- You have to travel up the call stack once to get it; upvalue reference.
-        print(LocalVar3) -- Defined in the same call stack index; not an upvalue reference.
+        print(LocalVar3) -- Defined in the same call stack level; not an upvalue reference.
     end
 
-    print(LocalVar1) -- Hey, look! Our call stack index is 2, and the local is at index 1, this is an upvalue reference.
-    print(LocalVar2) -- Defined in the same call stack index; not an upvalue reference.
+    print(LocalVar1) -- Hey, look! Our call stack level is 2, and the local is at level 1, this is an upvalue reference.
+    print(LocalVar2) -- Defined in the same call stack level; not an upvalue reference.
 end
 
-print(LocalVar1) -- Defined in the same call stack index; not an upvalue reference.
+print(LocalVar1) -- Defined in the same call stack level; not an upvalue reference.
 f()
 ```
 Alright, what's the use if I don't know how to exploit scripts using upvalues? Think of a script that holds the nitro value for a car. Let's say there's a function that the exploiter knows of that updates the nitro value. The function has an upvalue that holds the nitro value. Here's a visualization of this script:
@@ -113,6 +126,7 @@ Congratulations, you just learned how to change an upvalue.
 # Combining Our Knowledge
 Okay, let's take this nitro script we made and exploit it as it was a legit script. We have to use `debug.getprotos` to find the function, then we need to get the first upvalue of that function and set it to `math.huge` to make it infinite. Here's the decompiled script source:
 ```lua
+-- Script Path: game.Players.LegitH3x0R.Character.SuperNitroScript
 local v0 = 1000
 local function DecrementNitro()
     v0 = v0 - 1
@@ -125,5 +139,12 @@ end
 ```
 You see something you can exploit? I sure do. Here's how I exploited it:
 ```lua
-
+local Script = getscriptclosure(game:GetService("Players").LocalPlayer.Character.SuperNitroScript)
+local DecrementNitro; for _, Closure in ipairs(debug.getprotos(Script)) do
+    if debug.getinfo(Closure).name == "DecrementNitro" then
+        DecrementNitro = Closure
+    end
+end
+assert(DecrementNitro, "Failed to find closure.")
+debug.setupvalue(DecrementNitro, 1, math.huge)
 ```
