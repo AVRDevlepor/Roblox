@@ -1,4 +1,4 @@
-Hey, you asked for help and you'll recieve help. I created this because I'm extremely lazy and I don't want to explain everything to 1000 people who want to learn how to make Roblox cheat scripts.
+Hey, you asked for help and you'll recieve help. I created this because I'm extremely lazy and I don't want to explain everything to 1000 people who want to learn how to make Roblox cheat scripts. Seriously, if you have questions about anything, you can always add me on discord (H3x0R#4231) and ask questions. I don't mind helping people, but if you're gonna be an arrogant person who doesn't want to dedicate time into learning, I won't help you out.
 
 # Precursor
 Real quickly, I want you to know a few terms so you understand what I'm talking about. A function prototype (proto) is not the same thing as a function. A proto is part of a function. Another thing I need you to know is that a closure is the same thing as a function.
