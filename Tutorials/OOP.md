@@ -180,7 +180,7 @@ print(#ud) --> userdata: 0xdeadbeef
 
 # Misc. Metatable Objects
 ## __metatable
-If this value exists, it won't let you call `getmetatable` or `setmetatable` on itself and it'll return whatever the value is instead. Roblox does this so you can't tamper with their internals (It would return "The metatable is locked.") but we `have debug.getmetatable` and `getrawmetatable` which get around this little security feature.
+If this value exists, it won't let you call `getmetatable` or `setmetatable` on itself and it'll return whatever the value is instead. Roblox does this so you can't tamper with their internals (It would return "The metatable is locked.") but we have `debug.getmetatable` and `getrawmetatable` which get around this little security feature.
 ```lua
 local t = setmetatable({}, {
     __metatable = "bruh no tampering", -- This can be any value, but I like using a string.
