@@ -7,7 +7,7 @@ local Swim  = 5319850266
 local Fall  = 5319839762
 local Jump  = 5319841935
 local Climb = 5319816685
-
+local balls = "lol"
 
 if not game:IsLoaded() then
     game.Loaded:Wait()
